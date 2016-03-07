@@ -30,6 +30,13 @@
             android:text="@{school.name}"
             android:onClick="@{handlers.onClickButton}" />
 
+        <fragment android:name="com.b1gdigital.schools.fragments.FragmentTest"
+            android:id="@+id/article_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/button"
+            android:layout_below="@+id/name" />
+
         <Button
             android:id="@+id/button"
             android:text="@{school.name}"
