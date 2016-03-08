@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="schools.b1gdigital.com.schools.MainActivity">
+
+    <data>
+
+        <variable
+            name="handlers"
+            type="com.b1gdigital.schools.fragments.AddStudent" />
+
+        <variable
+            name="student"
+            type="com.b1gdigital.schools.model.Student" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="name" />
+
+        <EditText
+            android:id="@+id/grade"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="grade" />
+
+
+    </LinearLayout>
+
+</layout>

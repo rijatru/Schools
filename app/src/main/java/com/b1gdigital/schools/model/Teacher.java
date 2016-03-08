@@ -1,23 +1,30 @@
-package com.b1gdigital.schools.models;
+package com.b1gdigital.schools.model;
 
 import javax.inject.Inject;
 
-/**
- * Created by Ricardo on 29/02/2016.
- */
 public class Teacher {
 
-    String name;
-    int grade;
+    private String name;
+    private int grade;
 
     @Inject
     public Teacher() {
 
     }
 
+    public String getName() {
+
+        return name;
+    }
+
     public void setName(String name) {
 
         this.name = name;
+    }
+
+    public int getGrade() {
+
+        return grade;
     }
 
     public void setGrade(int grade) {

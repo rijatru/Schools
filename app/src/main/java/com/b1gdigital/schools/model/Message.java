@@ -1,8 +1,5 @@
-package com.b1gdigital.schools.models;
+package com.b1gdigital.schools.model;
 
-/**
- * Created by Ricardo on 07/03/2016.
- */
 public class Message {
 
     private String message;

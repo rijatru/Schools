@@ -1,10 +1,10 @@
 package com.b1gdigital.schools.di.modules;
 
 import com.b1gdigital.schools.di.scopes.SchoolScope;
-import com.b1gdigital.schools.models.Grade;
-import com.b1gdigital.schools.models.School;
-import com.b1gdigital.schools.models.Student;
-import com.b1gdigital.schools.models.Teacher;
+import com.b1gdigital.schools.model.Grade;
+import com.b1gdigital.schools.model.School;
+import com.b1gdigital.schools.model.Student;
+import com.b1gdigital.schools.model.Teacher;
 
 import dagger.Module;
 import dagger.Provides;
@@ -16,14 +16,14 @@ public class SchoolModule {
     @SchoolScope
     School provideSchool() {
 
-        return new School(new Grade(new Teacher()));
+        return new School();
     }
 
     @Provides
     @SchoolScope
     Grade provideGrade() {
 
-        return new Grade(new Teacher());
+        return new Grade();
     }
 
     @Provides

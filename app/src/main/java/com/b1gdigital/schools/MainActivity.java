@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.b1gdigital.schools.databinding.ActivityMainBinding;
-import com.b1gdigital.schools.models.Message;
-import com.b1gdigital.schools.models.School;
+import com.b1gdigital.schools.model.Message;
+import com.b1gdigital.schools.model.School;
 import com.b1gdigital.schools.workers.BusWorker;
 import com.b1gdigital.schools.workers.DbWorker;
 import com.b1gdigital.schools.workers.LogWorker;

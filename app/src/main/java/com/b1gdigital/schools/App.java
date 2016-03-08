@@ -7,7 +7,7 @@ import com.b1gdigital.schools.di.components.DaggerNetComponent;
 import com.b1gdigital.schools.di.components.DaggerSchoolComponent;
 import com.b1gdigital.schools.di.components.NetComponent;
 import com.b1gdigital.schools.di.components.SchoolComponent;
-import com.b1gdigital.schools.models.Message;
+import com.b1gdigital.schools.model.Message;
 import com.b1gdigital.schools.workers.BusWorker;
 import com.squareup.otto.Subscribe;
 

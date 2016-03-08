@@ -2,7 +2,6 @@ package com.b1gdigital.schools.workers;
 
 import android.util.Log;
 
-import com.b1gdigital.schools.models.Message;
 import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
@@ -45,7 +44,7 @@ public class BusWorker {
         bus.unregister(object);
     }
 
-    public void post(Message event) {
+    public void post(Object event) {
 
         bus.post(event);
     }

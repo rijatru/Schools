@@ -1,14 +1,11 @@
 package com.b1gdigital.schools.workers;
 
-import com.b1gdigital.schools.models.Student;
+import com.b1gdigital.schools.model.Student;
 
 import java.util.Random;
 
 import javax.inject.Inject;
 
-/**
- * Created by Ricardo on 29/02/2016.
- */
 public class DbWorker {
 
     @Inject
