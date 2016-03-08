@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.b1gdigital.schools.App;
 import com.b1gdigital.schools.R;
 import com.b1gdigital.schools.models.Message;
+import com.b1gdigital.schools.models.School;
 import com.b1gdigital.schools.workers.BusWorker;
 import com.b1gdigital.schools.workers.LogWorker;
 import com.squareup.otto.Subscribe;
@@ -19,9 +20,11 @@ import javax.inject.Inject;
 public class FragmentTest extends Fragment {
 
     @Inject
-    BusWorker busWorker;
+    public static BusWorker busWorker;
     @Inject
     LogWorker logWorker;
+    @Inject
+    public static School school;
 
     public FragmentTest() {
         // Required empty public constructor
@@ -32,6 +35,8 @@ public class FragmentTest extends Fragment {
         super.onCreate(savedInstanceState);
 
         inject();
+
+        logWorker.log("Fragment: " + school.getName());
     }
 
     @Override

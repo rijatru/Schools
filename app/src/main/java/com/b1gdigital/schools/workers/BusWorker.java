@@ -16,6 +16,11 @@ public class BusWorker {
 
     }
 
+    public Bus getBus() {
+
+        return bus;
+    }
+
     public void register(Object object) {
 
         if (bus == null) {

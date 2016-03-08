@@ -9,12 +9,9 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-/**
- * Created by Ricardo on 29/02/2016.
- */
 public class School extends BaseObservable {
 
-    private String name = "";
+    private String name = "Init name";
     ArrayList<Grade> grades = new ArrayList<>();
     ArrayList<Teacher> teachers = new ArrayList<>();
     ArrayList<Student> students = new ArrayList<>();

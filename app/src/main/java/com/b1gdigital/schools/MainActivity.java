@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.b1gdigital.schools.databinding.ActivityMainBinding;
+import com.b1gdigital.schools.fragments.FragmentTest;
 import com.b1gdigital.schools.models.Message;
 import com.b1gdigital.schools.models.School;
 import com.b1gdigital.schools.workers.BusWorker;
@@ -102,7 +103,11 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void recievedMessage(Message message) {
 
-        logWorker.log("recievedMessage Activity: " + message.getMessage());
+        logWorker.log("recievedMessage Activity 1: " + message.getMessage());
+
+        logWorker.log("recievedMessage Activity 2: " + busWorker.getBus().equals(FragmentTest.busWorker.getBus()));
+
+        logWorker.log("recievedMessage Activity 3: " + FragmentTest.school.getName());
     }
 
     public void onClickButton(View view) {
