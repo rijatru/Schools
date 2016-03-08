@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
         inject();
 
-        busWorker.register(this);
-
         binding.setSchool(school);
         binding.setHandlers(this);
 
@@ -87,10 +85,24 @@ public class MainActivity extends AppCompatActivity {
         //});
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        busWorker.register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        busWorker.unRegister(this);
+    }
+
     @Subscribe
     public void recievedMessage(Message message) {
 
-        logWorker.log("recievedMessage: " + message.getMessage());
+        logWorker.log("recievedMessage Activity: " + message.getMessage());
     }
 
     public void onClickButton(View view) {

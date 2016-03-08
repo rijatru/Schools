@@ -4,6 +4,7 @@ import com.b1gdigital.schools.App;
 import com.b1gdigital.schools.MainActivity;
 import com.b1gdigital.schools.di.modules.GeneralModule;
 import com.b1gdigital.schools.di.scopes.GeneralScope;
+import com.b1gdigital.schools.fragments.FragmentTest;
 
 import dagger.Component;
 
@@ -13,5 +14,7 @@ public interface GeneralComponent {
 
     void inject(MainActivity activity);
 
-    void inject(App activity);
+    void inject(App app);
+
+    void inject(FragmentTest fragment);
 }

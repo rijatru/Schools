@@ -7,9 +7,6 @@ import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
 
-/**
- * Created by Ricardo on 29/02/2016.
- */
 public class BusWorker {
 
     Bus bus;
@@ -17,19 +14,28 @@ public class BusWorker {
     @Inject
     public BusWorker() {
 
-        bus = new Bus();
     }
 
     public void register(Object object) {
 
-        Log.d("Dagger", "Registering");
+        if (bus == null) {
+
+            Log.d("Dagger", "register bus == null");
+
+            bus = new Bus();
+        }
 
         bus.register(object);
     }
 
     public void unRegister(Object object) {
 
-        Log.d("Dagger", "Registering");
+        if (bus == null) {
+
+            Log.d("Dagger", "unRegister bus == null");
+
+            bus = new Bus();
+        }
 
         bus.unregister(object);
     }
