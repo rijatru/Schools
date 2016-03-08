@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.b1gdigital.schools.databinding.ActivityMainBinding;
 import com.b1gdigital.schools.model.Message;
@@ -20,9 +19,6 @@ import com.squareup.otto.Subscribe;
 import java.util.Random;
 
 import javax.inject.Inject;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     School school;
 
-    @Bind(R.id.name)
-    TextView name;
+    //@Bind(R.id.name)
+    //TextView name;
 
     ActivityMainBinding binding;
 
@@ -50,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        ButterKnife.bind(this);
+        //ButterKnife.bind(this);
 
         inject();
 

@@ -1,13 +1,19 @@
 package com.b1gdigital.schools.model;
 
-import android.util.Log;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
+import com.b1gdigital.schools.BR;
 
 import javax.inject.Inject;
 
-public class Student {
+/**
+ * Created by Ricardo on 29/02/2016.
+ */
+public class Student extends BaseObservable {
 
     private String name = "School name";
-    private int grade;
+    private String grade;
 
     @Inject
     public Student() {
@@ -19,23 +25,24 @@ public class Student {
         return name;
     }
 
+    @Bindable
     public void setName(String name) {
 
         this.name = name;
+
+        notifyPropertyChanged(BR.name);
     }
 
-    public int getGrade() {
+    public String getGrade() {
 
         return grade;
     }
 
-    public void setGrade(int grade) {
+    @Bindable
+    public void setGrade(String grade) {
 
         this.grade = grade;
-    }
 
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        Log.w("tag", "Student onTextChanged " + s);
+        notifyPropertyChanged(BR.name);
     }
 }

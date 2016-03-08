@@ -5,7 +5,7 @@ import javax.inject.Inject;
 public class Teacher {
 
     private String name;
-    private int grade;
+    private String grade;
 
     @Inject
     public Teacher() {
@@ -22,12 +22,12 @@ public class Teacher {
         this.name = name;
     }
 
-    public int getGrade() {
+    public String getGrade() {
 
         return grade;
     }
 
-    public void setGrade(int grade) {
+    public void setGrade(String grade) {
 
         this.grade = grade;
     }

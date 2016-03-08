@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="schools.b1gdigital.com.schools.MainActivity">
+    tools:context="schools.b1gdigital.com.schools.fragments.AddStudent">
 
     <data>
 
         <variable
             name="handlers"
             type="com.b1gdigital.schools.fragments.AddStudent" />
-
         <variable
             name="student"
             type="com.b1gdigital.schools.model.Student" />
+
     </data>
 
     <LinearLayout
@@ -24,14 +24,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:hint="name" />
+            android:hint="name"
+            android:singleLine="true" />
 
         <EditText
             android:id="@+id/grade"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:hint="grade" />
+            android:hint="grade"
+            android:singleLine="true" />
 
 
     </LinearLayout>

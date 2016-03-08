@@ -21,7 +21,7 @@ public class DbWorker {
 
             Student student = new Student();
             student.setName("Ricardo_" + i);
-            student.setGrade(randomGenerator.nextInt(100));
+            //student.setGrade(randomGenerator.nextInt(100));
         }
     }
 }

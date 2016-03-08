@@ -4,10 +4,11 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import com.b1gdigital.schools.App;
 import com.b1gdigital.schools.R;
@@ -20,9 +21,6 @@ import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 public class AddStudent extends Fragment {
 
     @Inject
@@ -32,10 +30,10 @@ public class AddStudent extends Fragment {
     @Inject
     Student student;
 
-    @Bind(R.id.name)
-    EditText name;
-    @Bind(R.id.grade)
-    EditText grade;
+    //@Bind(R.id.name)
+    //EditText name;
+    //@Bind(R.id.grade)
+    //EditText grade;
 
     AddStudentFragmentBinding binding;
 
@@ -81,19 +79,21 @@ public class AddStudent extends Fragment {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.add_student_fragment, container, false);
 
-        View v = binding.getRoot();
+        binding.setStudent(student);
+        binding.setHandlers(this);
 
-        ButterKnife.bind(this, v);
+        setTextWatchers();
 
-        return v;
+        //View v = binding.getRoot();
+
+        //ButterKnife.bind(this, v);
+
+        return binding.getRoot();
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         inject();
-
-        binding.setStudent(student);
-        binding.setHandlers(this);
 
         logWorker.log("Fragment: " + student.getName());
     }
@@ -102,5 +102,59 @@ public class AddStudent extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
+    }
+
+    void setTextWatchers() {
+
+        binding.name.addTextChangedListener(getTextChangedListener(binding.name));
+        binding.grade.addTextChangedListener(getTextChangedListener(binding.grade));
+    }
+
+    TextWatcher getTextChangedListener(final View view) {
+
+        return new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+
+                getView(view, s);
+            }
+        };
+    }
+
+    public void getView(View view, CharSequence s) {
+
+        switch (view.getId()) {
+
+            case R.id.name:
+
+                student.setName(s.toString());
+
+                logWorker.log("New Student name: " + student.getName());
+
+                break;
+
+            case R.id.grade:
+
+                student.setGrade(s.toString());
+
+                logWorker.log("New Student grade: " + student.getGrade());
+
+                break;
+
+            default:
+
+                break;
+        }
     }
 }
