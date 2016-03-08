@@ -20,11 +20,11 @@ import javax.inject.Inject;
 public class FragmentTest extends Fragment {
 
     @Inject
-    public static BusWorker busWorker;
+    BusWorker busWorker;
     @Inject
     LogWorker logWorker;
     @Inject
-    public static School school;
+    School school;
 
     public FragmentTest() {
         // Required empty public constructor
@@ -55,7 +55,8 @@ public class FragmentTest extends Fragment {
 
     void inject() {
 
-        ((App) getActivity().getApplication()).getGeneralComponent().inject(this);
+        ((App) getActivity().getApplication()).getNetComponent().inject(this);
+        ((App) getActivity().getApplication()).getSchoolComponent().inject(this);
     }
 
     @Subscribe

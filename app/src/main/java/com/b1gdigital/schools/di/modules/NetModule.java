@@ -13,10 +13,6 @@ import dagger.Provides;
 @Module
 public class NetModule {
 
-    public NetModule() {
-
-    }
-
     @Provides
     @NetScope
     SharedPreferencesWorker provideSharedPreferences(){

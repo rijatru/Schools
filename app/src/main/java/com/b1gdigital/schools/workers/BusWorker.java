@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 public class BusWorker {
 
-    Bus bus;
+    static Bus bus;
 
     @Inject
     public BusWorker() {

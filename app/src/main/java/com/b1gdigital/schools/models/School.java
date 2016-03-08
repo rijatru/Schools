@@ -11,21 +11,17 @@ import javax.inject.Inject;
 
 public class School extends BaseObservable {
 
-    private String name = "Init name";
-    ArrayList<Grade> grades = new ArrayList<>();
-    ArrayList<Teacher> teachers = new ArrayList<>();
+    Grade grade;
+    Teacher teacher;
     ArrayList<Student> students = new ArrayList<>();
+    private String name = "Init name";
 
     @Inject
-    public School() {
+    public School(Grade grade) {
 
-        notifyPropertyChanged(BR.name);
-        notifyPropertyChanged(BR.name);
-    }
+        this.grade = grade;
+        this.teacher = grade.getTeacher();
 
-    public void setName(String name) {
-
-        this.name = name;
         notifyPropertyChanged(BR.name);
     }
 
@@ -35,8 +31,9 @@ public class School extends BaseObservable {
         return this.name;
     }
 
-    public ArrayList getGrades() {
+    public void setName(String name) {
 
-        return this.grades;
+        this.name = name;
+        notifyPropertyChanged(BR.name);
     }
 }

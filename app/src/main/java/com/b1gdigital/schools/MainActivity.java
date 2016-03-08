@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.b1gdigital.schools.databinding.ActivityMainBinding;
-import com.b1gdigital.schools.fragments.FragmentTest;
 import com.b1gdigital.schools.models.Message;
 import com.b1gdigital.schools.models.School;
 import com.b1gdigital.schools.workers.BusWorker;
@@ -27,8 +26,6 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-    //@Inject
-    //App app;
     @Inject
     BusWorker busWorker;
     @Inject
@@ -60,8 +57,6 @@ public class MainActivity extends AppCompatActivity {
         binding.setSchool(school);
         binding.setHandlers(this);
 
-        //getGrades(school);
-
         sharedPreferences.saveString(this, R.string.name, "Ricardo");
 
         String name = sharedPreferences.getString(this, R.string.name);
@@ -76,14 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
             school.setName(getString(R.string.button));
         }
-
-        //binding.button.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-        //    public void onClick(View v) {
-//
-        //        school.setName("ewewknewqojewqne");
-        //    }
-        //});
     }
 
     @Override
@@ -103,11 +90,7 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void recievedMessage(Message message) {
 
-        logWorker.log("recievedMessage Activity 1: " + message.getMessage());
-
-        logWorker.log("recievedMessage Activity 2: " + busWorker.getBus().equals(FragmentTest.busWorker.getBus()));
-
-        logWorker.log("recievedMessage Activity 3: " + FragmentTest.school.getName());
+        logWorker.log("recievedMessage Activity: " + message.getMessage());
     }
 
     public void onClickButton(View view) {
@@ -117,8 +100,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.button:
 
                 Random randomGenerator = new Random();
-
-                //logWorker.log(getString(R.string.button));
 
                 school.setName(String.valueOf(randomGenerator.nextInt(100)));
 
@@ -150,13 +131,8 @@ public class MainActivity extends AppCompatActivity {
 
     void inject() {
 
-        ((App) getApplication()).getGeneralComponent().inject(this);
+        ((App) getApplication()).getNetComponent().inject(this);
         ((App) getApplication()).getSchoolComponent().inject(this);
-    }
-
-    void getGrades(School school) {
-
-        Log.d("Dagger", "Grades: " + school.getGrades().size());
     }
 
     void getUrl(NetWorker netWorker) {
