@@ -20,6 +20,7 @@ public class School extends BaseObservable {
     public School() {
 
         notifyPropertyChanged(BR.name);
+        notifyPropertyChanged(BR.name);
     }
 
     public void setName(String name) {
