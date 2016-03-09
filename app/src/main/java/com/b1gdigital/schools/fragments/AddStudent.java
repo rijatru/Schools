@@ -13,7 +13,9 @@ import android.view.ViewGroup;
 import com.b1gdigital.schools.App;
 import com.b1gdigital.schools.R;
 import com.b1gdigital.schools.databinding.AddStudentFragmentBinding;
+import com.b1gdigital.schools.model.Grade;
 import com.b1gdigital.schools.model.Message;
+import com.b1gdigital.schools.model.School;
 import com.b1gdigital.schools.model.Student;
 import com.b1gdigital.schools.workers.BusWorker;
 import com.b1gdigital.schools.workers.LogWorker;
@@ -27,6 +29,10 @@ public class AddStudent extends Fragment {
     BusWorker busWorker;
     @Inject
     LogWorker logWorker;
+    @Inject
+    School school;
+    @Inject
+    Grade grade;
     @Inject
     Student student;
 
@@ -91,6 +97,7 @@ public class AddStudent extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         inject();
@@ -140,15 +147,34 @@ public class AddStudent extends Fragment {
 
                 student.setName(s.toString());
 
-                logWorker.log("New Student name: " + student.getName());
-
                 break;
 
             case R.id.grade:
 
                 student.setGrade(s.toString());
 
-                logWorker.log("New Student grade: " + student.getGrade());
+                break;
+
+            default:
+
+                break;
+        }
+    }
+
+    public void onClickButton(View view) {
+
+        switch (view.getId()) {
+
+            case R.id.button:
+
+                grade.addStudent(student);
+
+                busWorker.post(new Message("Student: " + student.getName() + " from " + student.getGrade()));
+
+                student.reset();
+
+                binding.name.setText("");
+                binding.grade.setText("");
 
                 break;
 

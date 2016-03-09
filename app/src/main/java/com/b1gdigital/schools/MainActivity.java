@@ -7,8 +7,10 @@ import android.util.Log;
 import android.view.View;
 
 import com.b1gdigital.schools.databinding.ActivityMainBinding;
+import com.b1gdigital.schools.model.Grade;
 import com.b1gdigital.schools.model.Message;
 import com.b1gdigital.schools.model.School;
+import com.b1gdigital.schools.model.Student;
 import com.b1gdigital.schools.workers.BusWorker;
 import com.b1gdigital.schools.workers.DbWorker;
 import com.b1gdigital.schools.workers.LogWorker;
@@ -34,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
     LogWorker logWorker;
     @Inject
     School school;
+    @Inject
+    Grade grade;
+    @Inject
+    Student student;
 
     //@Bind(R.id.name)
     //TextView name;

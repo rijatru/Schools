@@ -44,4 +44,9 @@ public class Grade {
 
         return students;
     }
+
+    public Student getStudent(int position) {
+
+        return students.get(position);
+    }
 }

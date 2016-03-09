@@ -45,4 +45,10 @@ public class Student extends BaseObservable {
 
         notifyPropertyChanged(BR.name);
     }
+
+    public void reset() {
+
+        name = "";
+        name = "";
+    }
 }
