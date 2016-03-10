@@ -12,12 +12,40 @@ import javax.inject.Inject;
  */
 public class Student extends BaseObservable {
 
-    private String name = "School name";
-    private String grade;
+    private String name = "";
+    private String grade = "";
+    private int likes = 0;
+    private boolean isLiked = false;
 
     @Inject
     public Student() {
 
+    }
+
+    public boolean getIsLiked() {
+
+        return isLiked;
+    }
+
+    @Bindable
+    public void setIsLiked(boolean isLiked) {
+
+        this.isLiked = isLiked;
+
+        notifyPropertyChanged(BR.name);
+    }
+
+    public int getLikes() {
+
+        return likes;
+    }
+
+    @Bindable
+    public void setLikes(int likes) {
+
+        this.likes = likes;
+
+        notifyPropertyChanged(BR.name);
     }
 
     public String getName() {

@@ -1,10 +1,10 @@
 package com.b1gdigital.schools.model;
 
-public class Message {
+public class MessageEvent {
 
     private String message;
 
-    public Message(String message) {
+    public MessageEvent(String message) {
 
         this.message = message;
     }

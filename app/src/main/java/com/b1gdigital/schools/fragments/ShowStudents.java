@@ -1,6 +1,7 @@
 package com.b1gdigital.schools.fragments;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,35 +13,37 @@ import android.view.ViewGroup;
 
 import com.b1gdigital.schools.App;
 import com.b1gdigital.schools.R;
-import com.b1gdigital.schools.model.Message;
+import com.b1gdigital.schools.adapter.CustomLinearLayoutManager;
+import com.b1gdigital.schools.adapter.FeedItemAnimator;
+import com.b1gdigital.schools.adapter.StudentsRecyclerViewAdapter;
+import com.b1gdigital.schools.databinding.ShowStudentsFragmentBinding;
+import com.b1gdigital.schools.model.MessageEvent;
 import com.b1gdigital.schools.model.Student;
-import com.b1gdigital.schools.recycler_views.StudentsRecyclerViewAdapter;
+import com.b1gdigital.schools.model.StudentEvent;
 import com.b1gdigital.schools.workers.BusWorker;
 import com.b1gdigital.schools.workers.LogWorker;
 import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 public class ShowStudents extends Fragment {
 
-    private static final int SPAN_COUNT = 2;
-    private static final int DATASET_COUNT = 15;
-    private static final String KEY_LAYOUT_MANAGER = "layoutManager";
-    public StudentsRecyclerViewAdapter mAdapter;
+    public static StudentsRecyclerViewAdapter adapter;
+    private final int SPAN_COUNT = 2;
+    private final int DATASET_COUNT = 15;
+    private final String KEY_LAYOUT_MANAGER = "layoutManager";
     protected LayoutManagerType mCurrentLayoutManagerType;
     protected RecyclerView.LayoutManager mLayoutManager;
+
     @Inject
     BusWorker busWorker;
     @Inject
     LogWorker logWorker;
-    @Bind(R.id.students_recycler_view)
-    RecyclerView recyclerView;
+
+    ShowStudentsFragmentBinding binding;
 
     public ShowStudents() {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -71,20 +74,28 @@ public class ShowStudents extends Fragment {
     }
 
     @Subscribe
-    public void recievedMessage(Message message) {
+    public void recievedMessage(MessageEvent event) {
 
-        logWorker.log("recievedMessage Fragment: " + message.getMessage());
+        logWorker.log("recievedMessage Fragment: " + event.getMessage());
+    }
+
+    @Subscribe
+    public void recievedMessage(StudentEvent event) {
+
+        logWorker.log("recievedStudentEvent Fragment notifyDataSetChanged - size " + adapter.getItemCount());
+
+        adapter.notifyDataSetChanged();
+
+        binding.studentsRecyclerView.smoothScrollToPosition(0);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.show_students_fragment, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.show_students_fragment, container, false);
 
-        ButterKnife.bind(this, view);
-
-        return view;
+        return binding.getRoot();
     }
 
     @Override
@@ -99,6 +110,14 @@ public class ShowStudents extends Fragment {
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        savedInstanceState.putSerializable(KEY_LAYOUT_MANAGER, mCurrentLayoutManagerType); // Save currently selected layout manager.
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
     void initRecyclerView(Bundle savedInstanceState) {
 
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -110,9 +129,10 @@ public class ShowStudents extends Fragment {
             mCurrentLayoutManagerType = (LayoutManagerType) savedInstanceState
                     .getSerializable(KEY_LAYOUT_MANAGER);
         }
+
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
 
-        mAdapter = new StudentsRecyclerViewAdapter(getActivity(), new StudentsRecyclerViewAdapter.RecyclerViewAdapterListener() {
+        adapter = new StudentsRecyclerViewAdapter(getActivity(), new StudentsRecyclerViewAdapter.RecyclerViewAdapterListener() {
 
             @Override
             public void onListItemClicked(Student student) {
@@ -125,15 +145,26 @@ public class ShowStudents extends Fragment {
             }
         });
 
-        recyclerView.setAdapter(mAdapter);
+        binding.studentsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    adapter.setAnimationsLocked(true);
+                }
+            }
+        });
+
+        binding.studentsRecyclerView.setItemAnimator(new FeedItemAnimator());
+
+        binding.studentsRecyclerView.setAdapter(adapter);
     }
 
     public void setRecyclerViewLayoutManager(LayoutManagerType layoutManagerType) {
 
         int scrollPosition = 0;
 
-        if (recyclerView.getLayoutManager() != null) {
-            scrollPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+        if (binding.studentsRecyclerView.getLayoutManager() != null) {
+            scrollPosition = ((LinearLayoutManager) binding.studentsRecyclerView.getLayoutManager())
                     .findFirstCompletelyVisibleItemPosition();
         }
 
@@ -143,7 +174,7 @@ public class ShowStudents extends Fragment {
                 mCurrentLayoutManagerType = LayoutManagerType.GRID_LAYOUT_MANAGER;
                 break;
             case LINEAR_LAYOUT_MANAGER:
-                mLayoutManager = new LinearLayoutManager(getActivity());
+                mLayoutManager = new CustomLinearLayoutManager(getActivity());
                 mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
                 break;
             default:
@@ -151,8 +182,8 @@ public class ShowStudents extends Fragment {
                 mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
         }
 
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.scrollToPosition(scrollPosition);
+        binding.studentsRecyclerView.setLayoutManager(mLayoutManager);
+        binding.studentsRecyclerView.scrollToPosition(scrollPosition);
     }
 
     private enum LayoutManagerType {

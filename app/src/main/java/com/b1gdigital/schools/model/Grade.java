@@ -37,10 +37,10 @@ public class Grade {
 
     public void addStudent(Student student) {
 
-        students.add(student);
+        students.add(0, student);
     }
 
-    public ArrayList getStudents() {
+    public ArrayList<Student> getStudents() {
 
         return students;
     }

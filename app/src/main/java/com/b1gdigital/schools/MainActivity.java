@@ -2,13 +2,15 @@ package com.b1gdigital.schools;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
 import com.b1gdigital.schools.databinding.ActivityMainBinding;
 import com.b1gdigital.schools.model.Grade;
-import com.b1gdigital.schools.model.Message;
+import com.b1gdigital.schools.model.LikeEvent;
+import com.b1gdigital.schools.model.MessageEvent;
 import com.b1gdigital.schools.model.School;
 import com.b1gdigital.schools.model.Student;
 import com.b1gdigital.schools.workers.BusWorker;
@@ -41,9 +43,6 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     Student student;
 
-    //@Bind(R.id.name)
-    //TextView name;
-
     ActivityMainBinding binding;
 
     @Override
@@ -52,13 +51,10 @@ public class MainActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        //ButterKnife.bind(this);
-
         inject();
 
         binding.setSchool(school);
         binding.setHandlers(this);
-
         sharedPreferences.saveString(this, R.string.name, "Ricardo");
 
         String name = sharedPreferences.getString(this, R.string.name);
@@ -89,10 +85,27 @@ public class MainActivity extends AppCompatActivity {
         busWorker.unRegister(this);
     }
 
-    @Subscribe
-    public void recievedMessage(Message message) {
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
 
-        logWorker.log("recievedMessage Activity: " + message.getMessage());
+    }
+
+    @Subscribe
+    public void recievedMessage(MessageEvent event) {
+
+        logWorker.log("recievedMessage Activity: " + event.getMessage());
+    }
+
+    @Subscribe
+    public void recievedMessage(LikeEvent event) {
+
+        showLikedSnackbar();
+    }
+
+    public void showLikedSnackbar() {
+
+        Snackbar.make(binding.getRoot(), "Liked!", Snackbar.LENGTH_SHORT).show();
     }
 
     public void onClickButton(View view) {
@@ -105,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
                 school.setName(String.valueOf(randomGenerator.nextInt(100)));
 
-                busWorker.post(new Message(school.getName()));
+                busWorker.post(new MessageEvent(school.getName()));
 
                 break;
 

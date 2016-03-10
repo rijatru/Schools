@@ -38,8 +38,7 @@
             <com.b1gdigital.schools.view.SquaredFrameLayout
                 android:id="@+id/vImageRoot"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:background="@color/style_color_primary_dark">
+                android:layout_height="250dp">
 
                 <ImageView
                     android:id="@+id/ivFeedCenter"
@@ -61,6 +60,18 @@
                     android:scaleType="center"
                     android:src="@drawable/ic_heart_outline_white"
                     android:visibility="invisible" />
+
+                <View
+                    android:id="@+id/vProgressBg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#77ffffff" />
+
+                <com.b1gdigital.schools.view.SendingProgressView
+                    android:id="@+id/vSendingProgress"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center" />
 
             </com.b1gdigital.schools.view.SquaredFrameLayout>
 
@@ -88,8 +99,7 @@
             <ImageView
                 android:id="@+id/ivFeedBottom"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/img_feed_bottom_2" />
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -103,7 +113,7 @@
                     android:layout_height="48dp"
                     android:background="@android:color/transparent"
                     android:onClick="@{click.onClick}"
-                    android:src="@{student.isLiked ? @drawable/ic_heart_red : @drawable/ic_heart_outline_grey}" />
+                    android:src="@drawable/ic_heart_outline_grey" />
 
                 <ImageButton
                     android:id="@+id/btnComments"
@@ -125,7 +135,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center_vertical|end">
+                    android:gravity="center_vertical|right">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -144,7 +154,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{String.valueOf(student.likes) + (student.likes == 1 ? @string/like : @string/likes)}"
+                            android:text="@{student.likes}"
                             android:textColor="@color/text_like_counter" />
 
                         <TextView

@@ -7,7 +7,7 @@ import com.b1gdigital.schools.di.components.DaggerNetComponent;
 import com.b1gdigital.schools.di.components.DaggerSchoolComponent;
 import com.b1gdigital.schools.di.components.NetComponent;
 import com.b1gdigital.schools.di.components.SchoolComponent;
-import com.b1gdigital.schools.model.Message;
+import com.b1gdigital.schools.model.MessageEvent;
 import com.b1gdigital.schools.workers.BusWorker;
 import com.squareup.otto.Subscribe;
 
@@ -39,9 +39,9 @@ public class App extends Application {
     }
 
     @Subscribe
-    public void recievedMessage(Message message) {
+    public void recievedMessage(MessageEvent event) {
 
-        Log.d("Dagger", "recievedMessage App: " + message.getMessage());
+        Log.d("Dagger", "recievedMessage App: " + event.getMessage());
     }
 
     public SchoolComponent getSchoolComponent() {

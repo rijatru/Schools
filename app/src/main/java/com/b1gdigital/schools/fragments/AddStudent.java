@@ -14,9 +14,10 @@ import com.b1gdigital.schools.App;
 import com.b1gdigital.schools.R;
 import com.b1gdigital.schools.databinding.AddStudentFragmentBinding;
 import com.b1gdigital.schools.model.Grade;
-import com.b1gdigital.schools.model.Message;
+import com.b1gdigital.schools.model.MessageEvent;
 import com.b1gdigital.schools.model.School;
 import com.b1gdigital.schools.model.Student;
+import com.b1gdigital.schools.model.StudentEvent;
 import com.b1gdigital.schools.workers.BusWorker;
 import com.b1gdigital.schools.workers.LogWorker;
 import com.squareup.otto.Subscribe;
@@ -36,21 +37,19 @@ public class AddStudent extends Fragment {
     @Inject
     Student student;
 
-    //@Bind(R.id.name)
-    //EditText name;
-    //@Bind(R.id.grade)
-    //EditText grade;
+    Student localStudent;
 
     AddStudentFragmentBinding binding;
 
     public AddStudent() {
-        // Required empty public constructor
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        localStudent = new Student();
     }
 
     @Override
@@ -74,9 +73,9 @@ public class AddStudent extends Fragment {
     }
 
     @Subscribe
-    public void recievedMessage(Message message) {
+    public void recievedMessage(MessageEvent event) {
 
-        logWorker.log("recievedMessage Fragment: " + message.getMessage());
+        logWorker.log("recievedMessage Fragment: " + event.getMessage());
     }
 
     @Override
@@ -167,14 +166,24 @@ public class AddStudent extends Fragment {
 
             case R.id.button:
 
-                grade.addStudent(student);
+                if (student.getName().length() > 0 && student.getGrade().length() > 0) {
 
-                busWorker.post(new Message("Student: " + student.getName() + " from " + student.getGrade()));
+                    localStudent.setName(student.getName());
+                    localStudent.setGrade(student.getGrade());
 
-                student.reset();
+                    grade.addStudent(localStudent);
 
-                binding.name.setText("");
-                binding.grade.setText("");
+                    busWorker.post(new MessageEvent("Student: size: " + grade.getStudents().size() + " - " + student.getName() + " from " + student.getGrade()));
+
+                    busWorker.post(new StudentEvent());
+
+                    student.reset();
+
+                    binding.name.setText("");
+                    binding.grade.setText("");
+
+                    localStudent = new Student();
+                }
 
                 break;
 
