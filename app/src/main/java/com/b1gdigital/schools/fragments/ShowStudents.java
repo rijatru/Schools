@@ -13,13 +13,12 @@ import android.view.ViewGroup;
 
 import com.b1gdigital.schools.App;
 import com.b1gdigital.schools.R;
-import com.b1gdigital.schools.adapter.CustomLinearLayoutManager;
 import com.b1gdigital.schools.adapter.FeedItemAnimator;
 import com.b1gdigital.schools.adapter.StudentsRecyclerViewAdapter;
 import com.b1gdigital.schools.databinding.ShowStudentsFragmentBinding;
 import com.b1gdigital.schools.model.MessageEvent;
-import com.b1gdigital.schools.model.Student;
 import com.b1gdigital.schools.model.StudentEvent;
+import com.b1gdigital.schools.view.FeedContextMenuManager;
 import com.b1gdigital.schools.workers.BusWorker;
 import com.b1gdigital.schools.workers.LogWorker;
 import com.squareup.otto.Subscribe;
@@ -132,31 +131,16 @@ public class ShowStudents extends Fragment {
 
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
 
-        adapter = new StudentsRecyclerViewAdapter(getActivity(), new StudentsRecyclerViewAdapter.RecyclerViewAdapterListener() {
-
-            @Override
-            public void onListItemClicked(Student student) {
-
-            }
-
-            @Override
-            public void onEmptyAddressesList() {
-
-            }
-        });
-
+        adapter = new StudentsRecyclerViewAdapter(getActivity());
+        binding.studentsRecyclerView.setAdapter(adapter);
         binding.studentsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-                    adapter.setAnimationsLocked(true);
-                }
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                FeedContextMenuManager.getInstance().onScrolled(recyclerView, dx, dy);
             }
         });
 
         binding.studentsRecyclerView.setItemAnimator(new FeedItemAnimator());
-
-        binding.studentsRecyclerView.setAdapter(adapter);
     }
 
     public void setRecyclerViewLayoutManager(LayoutManagerType layoutManagerType) {
@@ -174,7 +158,7 @@ public class ShowStudents extends Fragment {
                 mCurrentLayoutManagerType = LayoutManagerType.GRID_LAYOUT_MANAGER;
                 break;
             case LINEAR_LAYOUT_MANAGER:
-                mLayoutManager = new CustomLinearLayoutManager(getActivity());
+                mLayoutManager = new LinearLayoutManager(getActivity());
                 mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
                 break;
             default:

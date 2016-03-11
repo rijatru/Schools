@@ -7,6 +7,7 @@ import android.animation.ObjectAnimator;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -55,8 +56,10 @@ public class FeedItemAnimator extends DefaultItemAnimator {
 
     @Override
     public boolean animateAdd(RecyclerView.ViewHolder viewHolder) {
+        Log.d("Dagger", "Animating add 1");
         if (viewHolder.getItemViewType() == StudentsRecyclerViewAdapter.VIEW_TYPE_DEFAULT) {
             if (viewHolder.getLayoutPosition() > lastAddAnimatedItem) {
+                Log.d("Dagger", "Animating add");
                 lastAddAnimatedItem++;
                 runEnterAnimation((StudentsRecyclerViewAdapter.BindingHolder) viewHolder);
                 return false;
@@ -239,6 +242,7 @@ public class FeedItemAnimator extends DefaultItemAnimator {
     }
 
     public static class FeedItemHolderInfo extends ItemHolderInfo {
+
         public String updateAction;
 
         public FeedItemHolderInfo(String updateAction) {

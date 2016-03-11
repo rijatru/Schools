@@ -11,7 +11,7 @@ import android.util.DisplayMetrics;
  * Created by Ricardo on 10/03/2016.
  */
 public class CustomLinearLayoutManager extends LinearLayoutManager {
-    private static final float MILLISECONDS_PER_INCH = 60f;
+    private static final float MILLISECONDS_PER_INCH = 40f;
     private Context mContext;
 
     public CustomLinearLayoutManager(Context context) {

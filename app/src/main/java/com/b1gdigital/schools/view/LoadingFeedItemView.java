@@ -50,7 +50,7 @@ public class LoadingFeedItemView extends FrameLayout {
     }
 
     private void init() {
-        LayoutInflater.from(getContext()).inflate(R.layout.show_student_row, this, true);
+        LayoutInflater.from(getContext()).inflate(R.layout.show_student_row_loader, this, true);
         ButterKnife.bind(this);
     }
 

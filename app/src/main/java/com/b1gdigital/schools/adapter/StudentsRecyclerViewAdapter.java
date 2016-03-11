@@ -16,21 +16,19 @@
 
 package com.b1gdigital.schools.adapter;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
 
 import com.b1gdigital.schools.App;
+import com.b1gdigital.schools.Constants;
 import com.b1gdigital.schools.R;
 import com.b1gdigital.schools.databinding.ShowStudentRowBinding;
 import com.b1gdigital.schools.model.Grade;
-import com.b1gdigital.schools.model.LikeEvent;
+import com.b1gdigital.schools.model.RecyclerCellEvent;
 import com.b1gdigital.schools.model.Student;
 import com.b1gdigital.schools.workers.BusWorker;
 import com.b1gdigital.schools.workers.LogWorker;
@@ -52,7 +50,7 @@ public class StudentsRecyclerViewAdapter extends RecyclerView.Adapter<StudentsRe
     BusWorker busWorker;
     @Inject
     Grade grade;
-    RecyclerViewAdapterListener listener;
+
     Activity activity;
     private int itemsCount = 0;
     private int lastAnimatedPosition = -1;
@@ -60,10 +58,9 @@ public class StudentsRecyclerViewAdapter extends RecyclerView.Adapter<StudentsRe
     private boolean animationsLocked = false;
     private boolean delayEnterAnimation = true;
 
-    public StudentsRecyclerViewAdapter(Activity activity, RecyclerViewAdapterListener listener) {
+    public StudentsRecyclerViewAdapter(Activity activity) {
 
         this.activity = activity;
-        this.listener = listener;
 
         inject();
     }
@@ -86,8 +83,6 @@ public class StudentsRecyclerViewAdapter extends RecyclerView.Adapter<StudentsRe
 
     @Override
     public void onBindViewHolder(final BindingHolder holder, int position) {
-
-        runEnterAnimation(holder.itemView, position);
 
         final Student student = grade.getStudent(position);
 
@@ -116,7 +111,8 @@ public class StudentsRecyclerViewAdapter extends RecyclerView.Adapter<StudentsRe
                 holder.binding.getStudent().setLikes(likes);
                 holder.binding.getStudent().setIsLiked(true);
                 notifyItemChanged(adapterPosition, ACTION_LIKE_BUTTON_CLICKED);
-                busWorker.getBus().post(new LikeEvent());
+
+                busWorker.getBus().post(new RecyclerCellEvent(Constants.LIKE));
 
                 logWorker.log("Click on btnLike " + holder.binding.getStudent().getName() + " " + holder.binding.getStudent().getGrade());
 
@@ -129,6 +125,8 @@ public class StudentsRecyclerViewAdapter extends RecyclerView.Adapter<StudentsRe
                 break;
 
             case R.id.btnMore:
+
+                busWorker.getBus().post(new RecyclerCellEvent(Constants.MORE, holder.getBinding().btnMore, holder.getAdapterPosition()));
 
                 logWorker.log("Click on btnMore " + holder.binding.getStudent().getName() + " " + holder.binding.getStudent().getGrade());
 
@@ -146,28 +144,6 @@ public class StudentsRecyclerViewAdapter extends RecyclerView.Adapter<StudentsRe
         holder.clearAnimation();
     }
 
-    private void runEnterAnimation(View view, int position) {
-        if (animationsLocked) return;
-
-        if (position > lastAnimatedPosition) {
-            lastAnimatedPosition = position;
-            view.setTranslationY(100);
-            view.setAlpha(0.f);
-            view.animate()
-                    .translationY(0).alpha(1.f)
-                    .setStartDelay(delayEnterAnimation ? 20 * (position) : 0)
-                    .setInterpolator(new DecelerateInterpolator(2.f))
-                    .setDuration(300)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            animationsLocked = true;
-                        }
-                    })
-                    .start();
-        }
-    }
-
     @Override
     public int getItemCount() {
 
@@ -176,13 +152,6 @@ public class StudentsRecyclerViewAdapter extends RecyclerView.Adapter<StudentsRe
 
     public void setAnimationsLocked(boolean animationsLocked) {
         this.animationsLocked = animationsLocked;
-    }
-
-    public interface RecyclerViewAdapterListener {
-
-        void onListItemClicked(Student student);
-
-        void onEmptyAddressesList();
     }
 
     public interface StudentClickHandler {

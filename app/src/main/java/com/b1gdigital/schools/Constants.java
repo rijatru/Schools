@@ -21,4 +21,7 @@ public class Constants {
 
     final public static String LogTag = "Dagger";
     final public static String PREFERENCES_KEY = "SchoolsPrefs";
+
+    final public static String LIKE = "liked";
+    final public static String MORE = "more";
 }

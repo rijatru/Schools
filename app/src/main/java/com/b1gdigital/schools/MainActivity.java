@@ -9,10 +9,12 @@ import android.view.View;
 
 import com.b1gdigital.schools.databinding.ActivityMainBinding;
 import com.b1gdigital.schools.model.Grade;
-import com.b1gdigital.schools.model.LikeEvent;
 import com.b1gdigital.schools.model.MessageEvent;
+import com.b1gdigital.schools.model.RecyclerCellEvent;
 import com.b1gdigital.schools.model.School;
 import com.b1gdigital.schools.model.Student;
+import com.b1gdigital.schools.view.FeedContextMenu;
+import com.b1gdigital.schools.view.FeedContextMenuManager;
 import com.b1gdigital.schools.workers.BusWorker;
 import com.b1gdigital.schools.workers.DbWorker;
 import com.b1gdigital.schools.workers.LogWorker;
@@ -98,9 +100,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void recievedMessage(LikeEvent event) {
+    public void recievedMessage(RecyclerCellEvent event) {
 
-        showLikedSnackbar();
+        if (event.getString().equals(Constants.LIKE)) {
+
+            showLikedSnackbar();
+
+        } else if (event.getString().equals(Constants.MORE)) {
+
+            FeedContextMenuManager.getInstance().toggleContextMenuFromView(event.getView(), event.getPosition(), new FeedContextMenu.OnFeedContextMenuItemClickListener() {
+
+                @Override
+                public void onReportClick(int feedItem) {
+
+                }
+
+                @Override
+                public void onSharePhotoClick(int feedItem) {
+
+                }
+
+                @Override
+                public void onCopyShareUrlClick(int feedItem) {
+
+                }
+
+                @Override
+                public void onCancelClick(int feedItem) {
+
+                }
+            });
+        }
     }
 
     public void showLikedSnackbar() {
