@@ -35,17 +35,18 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_feed_top" />
 
-            <com.b1gdigital.schools.view.SquaredFrameLayout
+            <FrameLayout
                 android:id="@+id/vImageRoot"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/style_color_primary_dark">
+                android:layout_width="wrap_content"
+                android:layout_height="200dp">
 
                 <ImageView
                     android:id="@+id/ivFeedCenter"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop" />
+                    android:layout_height="200dp"
+                    android:onClick="@{click.onClick}"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_feed_center_1" />
 
                 <View
                     android:id="@+id/vBgLike"
@@ -59,15 +60,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="center"
-                    android:src="@drawable/ic_heart_outline_white"
+                    android:src="@drawable/ic_insert_emoticon_white_48dp"
                     android:visibility="invisible" />
 
-            </com.b1gdigital.schools.view.SquaredFrameLayout>
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/row_name"
@@ -99,11 +101,13 @@
 
                 <ImageButton
                     android:id="@+id/btnLike"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
                     android:background="@android:color/transparent"
                     android:onClick="@{click.onClick}"
-                    android:src="@{student.isLiked ? @drawable/ic_heart_red : @drawable/ic_heart_outline_grey}" />
+                    android:src="@{student.isLiked ? @drawable/ic_heart_red : @drawable/ic_insert_emoticon_gray_48dp}" />
 
                 <ImageButton
                     android:id="@+id/btnComments"

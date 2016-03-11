@@ -83,7 +83,7 @@ public class ShowStudents extends Fragment {
 
         logWorker.log("recievedStudentEvent Fragment notifyDataSetChanged - size " + adapter.getItemCount());
 
-        adapter.notifyDataSetChanged();
+        adapter.notifyItemInserted(0);
 
         binding.studentsRecyclerView.smoothScrollToPosition(0);
     }

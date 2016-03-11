@@ -44,7 +44,9 @@
                     android:id="@+id/ivFeedCenter"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop" />
+                    android:onClick="@{click.onClick}"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_feed_center_1" />
 
                 <View
                     android:id="@+id/vBgLike"

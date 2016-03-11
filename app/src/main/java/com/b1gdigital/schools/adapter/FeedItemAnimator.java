@@ -56,10 +56,11 @@ public class FeedItemAnimator extends DefaultItemAnimator {
 
     @Override
     public boolean animateAdd(RecyclerView.ViewHolder viewHolder) {
-        Log.d("Dagger", "Animating add 1");
+        Log.d("Dagger", "Animating add 1 " + viewHolder.getItemViewType());
         if (viewHolder.getItemViewType() == StudentsRecyclerViewAdapter.VIEW_TYPE_DEFAULT) {
+            Log.d("Dagger", "Animating add 2 " + viewHolder.getLayoutPosition() + " < " + lastAddAnimatedItem);
             if (viewHolder.getLayoutPosition() > lastAddAnimatedItem) {
-                Log.d("Dagger", "Animating add");
+                Log.d("Dagger", "Animating add 3");
                 lastAddAnimatedItem++;
                 runEnterAnimation((StudentsRecyclerViewAdapter.BindingHolder) viewHolder);
                 return false;
@@ -72,11 +73,13 @@ public class FeedItemAnimator extends DefaultItemAnimator {
 
     private void runEnterAnimation(final StudentsRecyclerViewAdapter.BindingHolder holder) {
         final int screenHeight = Utils.getScreenHeight(holder.itemView.getContext());
-        holder.itemView.setTranslationY(screenHeight);
+        holder.itemView.setTranslationY(screenHeight / 2);
+        holder.itemView.setAlpha(0f);
         holder.itemView.animate()
                 .translationY(0)
+                .alpha(1f)
                 .setInterpolator(new DecelerateInterpolator(3.f))
-                .setDuration(700)
+                .setDuration(1000)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -176,7 +179,7 @@ public class FeedItemAnimator extends DefaultItemAnimator {
         ObjectAnimator bgScaleYAnim = ObjectAnimator.ofFloat(holder.binding.vBgLike, "scaleY", 0.1f, 1f);
         bgScaleYAnim.setDuration(200);
         bgScaleYAnim.setInterpolator(DECCELERATE_INTERPOLATOR);
-        ObjectAnimator bgScaleXAnim = ObjectAnimator.ofFloat(holder.binding.vBgLike, "scaleX", 0.1f, 1f);
+        ObjectAnimator bgScaleXAnim = ObjectAnimator.ofFloat(holder.binding.vBgLike, "scaleX", 0.1f, 0.6f);
         bgScaleXAnim.setDuration(200);
         bgScaleXAnim.setInterpolator(DECCELERATE_INTERPOLATOR);
         ObjectAnimator bgAlphaAnim = ObjectAnimator.ofFloat(holder.binding.vBgLike, "alpha", 1f, 0f);

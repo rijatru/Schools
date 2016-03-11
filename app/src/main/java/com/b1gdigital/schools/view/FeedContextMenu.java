@@ -15,7 +15,7 @@ import butterknife.OnClick;
  * Created by froger_mcs on 15.12.14.
  */
 public class FeedContextMenu extends LinearLayout {
-    private static final int CONTEXT_MENU_WIDTH = Utils.dpToPx(240);
+    private static final int CONTEXT_MENU_WIDTH = Utils.dpToPx(200);
 
     private int feedItem = -1;
 
@@ -28,7 +28,7 @@ public class FeedContextMenu extends LinearLayout {
 
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_context_menu, this, true);
-        setBackgroundResource(R.drawable.bg_container_shadow);
+        setBackgroundResource(R.drawable.feed_context_menu_background);
         setOrientation(VERTICAL);
         setLayoutParams(new LayoutParams(CONTEXT_MENU_WIDTH, ViewGroup.LayoutParams.WRAP_CONTENT));
     }

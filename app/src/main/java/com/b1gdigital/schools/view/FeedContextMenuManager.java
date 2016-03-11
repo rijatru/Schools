@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AnticipateInterpolator;
 import android.view.animation.OvershootInterpolator;
 
 import com.b1gdigital.schools.Utils;
@@ -79,7 +79,7 @@ public class FeedContextMenuManager extends RecyclerView.OnScrollListener implem
         contextMenuView.setScaleY(0.1f);
         contextMenuView.animate()
                 .scaleX(1f).scaleY(1f)
-                .setDuration(150)
+                .setDuration(200)
                 .setInterpolator(new OvershootInterpolator())
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
@@ -101,8 +101,8 @@ public class FeedContextMenuManager extends RecyclerView.OnScrollListener implem
         contextMenuView.setPivotY(contextMenuView.getHeight());
         contextMenuView.animate()
                 .scaleX(0.1f).scaleY(0.1f)
-                .setDuration(150)
-                .setInterpolator(new AccelerateInterpolator())
+                .setDuration(250)
+                .setInterpolator(new AnticipateInterpolator())
                 .setStartDelay(100)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override

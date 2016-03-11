@@ -30,6 +30,7 @@ import com.b1gdigital.schools.databinding.ShowStudentRowBinding;
 import com.b1gdigital.schools.model.Grade;
 import com.b1gdigital.schools.model.RecyclerCellEvent;
 import com.b1gdigital.schools.model.Student;
+import com.b1gdigital.schools.view.LoadingFeedItemView;
 import com.b1gdigital.schools.workers.BusWorker;
 import com.b1gdigital.schools.workers.LogWorker;
 
@@ -57,6 +58,8 @@ public class StudentsRecyclerViewAdapter extends RecyclerView.Adapter<StudentsRe
     private int avatarSize;
     private boolean animationsLocked = false;
     private boolean delayEnterAnimation = true;
+
+    private boolean showLoadingView = false;
 
     public StudentsRecyclerViewAdapter(Activity activity) {
 
@@ -98,6 +101,31 @@ public class StudentsRecyclerViewAdapter extends RecyclerView.Adapter<StudentsRe
         });
 
         holder.getBinding().executePendingBindings();
+
+        if (getItemViewType(position) == VIEW_TYPE_LOADER) {
+
+            bindLoadingFeedItem((LoadingCellFeedViewHolder) holder);
+        }
+    }
+
+    private void bindLoadingFeedItem(final LoadingCellFeedViewHolder holder) {
+        holder.loadingFeedItemView.setOnLoadingFinishedListener(new LoadingFeedItemView.OnLoadingFinishedListener() {
+            @Override
+            public void onLoadingFinished() {
+                showLoadingView = false;
+                notifyItemChanged(0);
+            }
+        });
+        holder.loadingFeedItemView.startLoading();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (showLoadingView && position == 0) {
+            return VIEW_TYPE_LOADER;
+        } else {
+            return VIEW_TYPE_DEFAULT;
+        }
     }
 
     public void onClickButton(View view, BindingHolder holder) {
@@ -129,6 +157,18 @@ public class StudentsRecyclerViewAdapter extends RecyclerView.Adapter<StudentsRe
                 busWorker.getBus().post(new RecyclerCellEvent(Constants.MORE, holder.getBinding().btnMore, holder.getAdapterPosition()));
 
                 logWorker.log("Click on btnMore " + holder.binding.getStudent().getName() + " " + holder.binding.getStudent().getGrade());
+
+                break;
+
+            case R.id.ivFeedCenter:
+
+                int adapterPos = holder.getAdapterPosition();
+                int lik = holder.binding.getStudent().getLikes() + 1;
+                holder.binding.getStudent().setLikes(lik);
+                holder.binding.getStudent().setIsLiked(true);
+                notifyItemChanged(adapterPos, ACTION_LIKE_IMAGE_CLICKED);
+
+                busWorker.getBus().post(new RecyclerCellEvent(Constants.LIKE));
 
                 break;
 
@@ -178,6 +218,16 @@ public class StudentsRecyclerViewAdapter extends RecyclerView.Adapter<StudentsRe
         public void clearAnimation() {
 
             binding.getRoot().clearAnimation();
+        }
+    }
+
+    public static class LoadingCellFeedViewHolder extends BindingHolder {
+
+        LoadingFeedItemView loadingFeedItemView;
+
+        public LoadingCellFeedViewHolder(LoadingFeedItemView view) {
+            super(view);
+            this.loadingFeedItemView = view;
         }
     }
 }
