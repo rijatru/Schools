@@ -200,7 +200,7 @@ public class ShowStudents extends Fragment {
             logWorker.log("updateItems netWorker: " + netWorker.getScreenHeight());
             logWorker.log("updateItems grade: " + grade.getScreenHeight());
 
-            binding.studentsRecyclerView.setY(grade.getScreenHeight());
+            binding.studentsRecyclerView.setY(netWorker.getScreenHeight());
             binding.studentsRecyclerView
                     .animate()
                     .y(0f)
