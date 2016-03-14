@@ -7,7 +7,6 @@ import com.b1gdigital.schools.di.modules.SchoolModule;
 import com.b1gdigital.schools.di.scopes.SchoolScope;
 import com.b1gdigital.schools.fragments.AddStudent;
 import com.b1gdigital.schools.fragments.ShowStudents;
-import com.b1gdigital.schools.model.School;
 
 import dagger.Component;
 
@@ -24,6 +23,4 @@ public interface SchoolComponent {
     void inject(AddStudent fragment);
 
     void inject(StudentsRecyclerViewAdapter studentsRecyclerViewAdapter);
-
-    School provideSchool();
 }

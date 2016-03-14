@@ -12,14 +12,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.b1gdigital.schools.Constants;
-import com.b1gdigital.schools.Utils;
+import com.b1gdigital.schools.model.Measurements;
 
 import javax.inject.Inject;
 
 public class NetWorker {
 
-    static int rootHeight;
-    RequestQueue queue;
+    private Measurements measurements = new Measurements();
+    private RequestQueue queue;
 
     @Inject
     public NetWorker() {
@@ -63,12 +63,12 @@ public class NetWorker {
 
     public int getScreenHeight() {
 
-        return rootHeight;
+        return measurements.getScreenHeight();
     }
 
     public void setScreenHeight(Context context) {
 
-        rootHeight = Utils.getScreenHeight(context);
+        measurements.setScreenHeight(context);
     }
 
     public interface Listener {

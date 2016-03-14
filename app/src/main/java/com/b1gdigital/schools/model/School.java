@@ -11,7 +11,7 @@ import javax.inject.Inject;
 
 public class School extends BaseObservable {
 
-    private ArrayList<Grade> grades = new ArrayList<>();
+    ArrayList<Grade> grades = new ArrayList<>();
     private String name = "Init name";
 
     @Inject

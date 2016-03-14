@@ -1,5 +1,7 @@
 package com.b1gdigital.schools.fragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import com.b1gdigital.schools.adapter.FeedItemAnimator;
 import com.b1gdigital.schools.adapter.StudentsRecyclerViewAdapter;
 import com.b1gdigital.schools.databinding.ShowStudentsFragmentBinding;
 import com.b1gdigital.schools.model.Grade;
+import com.b1gdigital.schools.model.Grade2;
 import com.b1gdigital.schools.model.IntroRecyclerEvent;
 import com.b1gdigital.schools.model.MessageEvent;
 import com.b1gdigital.schools.model.Student;
@@ -48,6 +51,8 @@ public class ShowStudents extends Fragment {
     NetWorker netWorker;
     @Inject
     Grade grade;
+    @Inject
+    Grade2 netWorker2;
 
     ShowStudentsFragmentBinding binding;
 
@@ -89,6 +94,7 @@ public class ShowStudents extends Fragment {
     void inject() {
 
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
+        ((App) getActivity().getApplication()).getNetComponent2().inject(this);
         ((App) getActivity().getApplication()).getSchoolComponent().inject(this);
     }
 
@@ -101,18 +107,11 @@ public class ShowStudents extends Fragment {
     @Subscribe
     public void recievedMessage(StudentEvent event) {
 
-        logWorker.log("recievedStudentEvent Fragment notifyDataSetChanged - size " + adapter.getItemCount());
-
         adapter.notifyItemInserted(0);
 
         binding.studentsRecyclerView.smoothScrollToPosition(0);
     }
 
-    @Subscribe
-    public void recievedMessage(IntroRecyclerEvent event) {
-
-        //updateItems(true);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -202,12 +201,24 @@ public class ShowStudents extends Fragment {
 
         if (animated) {
 
-            binding.studentsRecyclerView.setY(netWorker.getScreenHeight());
+            logWorker.log("updateItems netWorker: " + netWorker.getScreenHeight());
+            logWorker.log("updateItems netWorker2: " + netWorker2.getScreenHeight());
+            logWorker.log("updateItems grade: " + grade.getScreenHeight());
+
+            binding.studentsRecyclerView.setY(grade.getScreenHeight());
             binding.studentsRecyclerView
                     .animate()
                     .y(0f)
                     .setDuration(Constants.RECYCLER_INTRO_ANIM_DURATION)
-                    .setInterpolator(new FastOutSlowInInterpolator());
+                    .setInterpolator(new FastOutSlowInInterpolator())
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+
+                            busWorker.getBus().post(new IntroRecyclerEvent());
+                        }
+                    });
         }
     }
 

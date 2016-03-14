@@ -10,6 +10,7 @@ import android.view.animation.OvershootInterpolator;
 
 import com.b1gdigital.schools.databinding.ActivityMainBinding;
 import com.b1gdigital.schools.model.Grade;
+import com.b1gdigital.schools.model.Grade2;
 import com.b1gdigital.schools.model.IntroRecyclerEvent;
 import com.b1gdigital.schools.model.MessageEvent;
 import com.b1gdigital.schools.model.RecyclerCellEvent;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     Grade grade;
     @Inject
+    Grade2 netWorker2;
+    @Inject
     Student student;
 
     ActivityMainBinding binding;
@@ -61,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
         inject();
 
         netWorker.setScreenHeight(this);
+        grade.setScreenHeight(this);
+        netWorker2.setScreenHeight(this);
+
+        grade.setName("Name");
 
         binding.setSchool(school);
         binding.setHandlers(this);
@@ -83,9 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
             pendingIntroAnimation = true;
 
-        } else {
-
-            busWorker.getBus().post(new IntroRecyclerEvent());
         }
     }
 
@@ -94,27 +98,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         busWorker.register(this);
-
-        if (pendingIntroAnimation) {
-
-            pendingIntroAnimation = false;
-
-            startIntroAnimation();
-        }
-    }
-
-    private void startIntroAnimation() {
-
-        logWorker.log("startIntroAnimation");
-
-        binding.btnCreate.setTranslationY(2 * getResources().getDimensionPixelOffset(R.dimen.btn_fab_size));
-
-        binding.btnCreate.animate()
-                .translationY(0)
-                .setInterpolator(new OvershootInterpolator(1.f))
-                .setStartDelay(300)
-                .setDuration(ANIM_DURATION_FAB)
-                .start();
     }
 
     @Override
@@ -138,6 +121,32 @@ public class MainActivity extends AppCompatActivity {
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
+    }
+
+    @Subscribe
+    public void recievedMessage(IntroRecyclerEvent event) {
+
+        if (pendingIntroAnimation) {
+
+            pendingIntroAnimation = false;
+
+            startIntroAnimation();
+        }
+    }
+
+    private void startIntroAnimation() {
+
+        logWorker.log("startIntroAnimation");
+
+        binding.btnCreate.setTranslationY(2 * getResources().getDimensionPixelOffset(R.dimen.btn_fab_size));
+        binding.btnCreate.setVisibility(View.VISIBLE);
+
+        binding.btnCreate.animate()
+                .translationY(0)
+                .setInterpolator(new OvershootInterpolator(1.5f))
+                .setStartDelay(0)
+                .setDuration(ANIM_DURATION_FAB)
+                .start();
     }
 
     @Subscribe

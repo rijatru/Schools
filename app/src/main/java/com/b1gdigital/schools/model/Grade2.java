@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-public class Grade {
+public class Grade2 {
 
     private ArrayList<Teacher> teachers = new ArrayList<>();
     private ArrayList<Student> students = new ArrayList<>();
@@ -14,7 +14,7 @@ public class Grade {
     private Measurements measurements = new Measurements();
 
     @Inject
-    public Grade() {
+    public Grade2() {
 
     }
 
