@@ -68,8 +68,7 @@ public class AddStudent extends Fragment {
 
     void inject() {
 
-        ((App) getActivity().getApplication()).getNetComponent().inject(this);
-        ((App) getActivity().getApplication()).getSchoolComponent().inject(this);
+        ((App) getActivity().getApplication()).getAppComponent().inject(this);
     }
 
     @Subscribe

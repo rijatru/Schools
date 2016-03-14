@@ -218,8 +218,7 @@ public class MainActivity extends AppCompatActivity {
 
     void inject() {
 
-        ((App) getApplication()).getNetComponent().inject(this);
-        ((App) getApplication()).getSchoolComponent().inject(this);
+        ((App) getApplication()).getAppComponent().inject(this);
     }
 
     void getUrl(NetWorker netWorker) {

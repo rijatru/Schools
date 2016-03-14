@@ -70,8 +70,7 @@ public class StudentsRecyclerViewAdapter extends RecyclerView.Adapter<StudentsRe
 
     void inject() {
 
-        ((App) activity.getApplication()).getNetComponent().inject(this);
-        ((App) activity.getApplication()).getSchoolComponent().inject(this);
+        ((App) activity.getApplication()).getAppComponent().inject(this);
     }
 
     @Override

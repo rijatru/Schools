@@ -1,10 +1,11 @@
 package com.b1gdigital.schools.di.modules;
 
-import com.b1gdigital.schools.di.scopes.NetScope;
 import com.b1gdigital.schools.workers.BusWorker;
 import com.b1gdigital.schools.workers.DbWorker;
 import com.b1gdigital.schools.workers.LogWorker;
 import com.b1gdigital.schools.workers.SharedPreferencesWorker;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -13,28 +14,28 @@ import dagger.Provides;
 public class NetModule {
 
     @Provides
-    @NetScope
+    @Singleton
     SharedPreferencesWorker provideSharedPreferences(){
 
         return new SharedPreferencesWorker();
     }
 
     @Provides
-    @NetScope
+    @Singleton
     DbWorker provideDbWorker(){
 
         return new DbWorker();
     }
 
     @Provides
-    @NetScope
+    @Singleton
     LogWorker provideLogWorker(){
 
         return new LogWorker();
     }
 
     @Provides
-    @NetScope
+    @Singleton
     BusWorker provideBusWorker(){
 
         return new BusWorker();
