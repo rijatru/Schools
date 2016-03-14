@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     BusWorker busWorker;
     @Inject
-    SharedPreferencesWorker sharedPreferences; //test
+    SharedPreferencesWorker sharedPreferences; //test to test
     @Inject
     NetWorker netWorker;
     @Inject
