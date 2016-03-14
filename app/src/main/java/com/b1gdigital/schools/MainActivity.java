@@ -47,7 +47,9 @@ public class MainActivity extends AppCompatActivity {
     Grade grade;
     @Inject
     Student student;
+
     ActivityMainBinding binding;
+
     private boolean pendingIntroAnimation;
 
     @Override
@@ -57,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         inject();
+
+        netWorker.setScreenHeight(this);
 
         binding.setSchool(school);
         binding.setHandlers(this);

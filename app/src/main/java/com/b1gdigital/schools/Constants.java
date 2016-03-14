@@ -1,8 +1,5 @@
 package com.b1gdigital.schools;
 
-/**
- * Created by Ricardo on 26/02/2016.
- */
 public class Constants {
 
     final public static int SOCKET_TIME_OUT = 30000;
@@ -24,4 +21,7 @@ public class Constants {
 
     final public static String LIKE = "liked";
     final public static String MORE = "more";
+
+    final public static int DURATION_300 = 300;
+    final public static int RECYCLER_INTRO_ANIM_DURATION = 500;
 }

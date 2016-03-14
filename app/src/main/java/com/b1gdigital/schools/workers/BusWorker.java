@@ -29,7 +29,15 @@ public class BusWorker {
             bus = new Bus();
         }
 
-        bus.register(object);
+        try {
+
+            bus.register(object);
+
+        } catch (RuntimeException re) {
+
+            Log.d("Dagger", "re: " + re.getMessage());
+        }
+
     }
 
     public void unRegister(Object object) {

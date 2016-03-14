@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.b1gdigital.schools.App;
+import com.b1gdigital.schools.Constants;
 import com.b1gdigital.schools.R;
 import com.b1gdigital.schools.adapter.FeedItemAnimator;
 import com.b1gdigital.schools.adapter.StudentsRecyclerViewAdapter;
@@ -24,6 +26,7 @@ import com.b1gdigital.schools.model.StudentEvent;
 import com.b1gdigital.schools.view.FeedContextMenuManager;
 import com.b1gdigital.schools.workers.BusWorker;
 import com.b1gdigital.schools.workers.LogWorker;
+import com.b1gdigital.schools.workers.NetWorker;
 import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
@@ -42,9 +45,13 @@ public class ShowStudents extends Fragment {
     @Inject
     LogWorker logWorker;
     @Inject
+    NetWorker netWorker;
+    @Inject
     Grade grade;
 
     ShowStudentsFragmentBinding binding;
+
+    private boolean pendingIntroAnimation = true;
 
     public ShowStudents() {
 
@@ -70,7 +77,13 @@ public class ShowStudents extends Fragment {
 
         busWorker.register(this);
 
-        updateItems(true);
+
+        if (pendingIntroAnimation) {
+
+            pendingIntroAnimation = false;
+
+            updateItems(true);
+        }
     }
 
     void inject() {
@@ -98,7 +111,7 @@ public class ShowStudents extends Fragment {
     @Subscribe
     public void recievedMessage(IntroRecyclerEvent event) {
 
-        updateItems(true);
+        //updateItems(true);
     }
 
     @Override
@@ -185,17 +198,16 @@ public class ShowStudents extends Fragment {
 
     public void updateItems(boolean animated) {
 
-        logWorker.log("updateItems: " + animated);
-
         insertStudents();
 
         if (animated) {
 
-            adapter.notifyItemRangeInserted(0, grade.getStudents().size());
-
-        } else {
-
-            adapter.notifyDataSetChanged();
+            binding.studentsRecyclerView.setY(netWorker.getScreenHeight());
+            binding.studentsRecyclerView
+                    .animate()
+                    .y(0f)
+                    .setDuration(Constants.RECYCLER_INTRO_ANIM_DURATION)
+                    .setInterpolator(new FastOutSlowInInterpolator());
         }
     }
 
