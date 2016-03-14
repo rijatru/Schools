@@ -43,13 +43,6 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
 
-                <fragment
-                    android:id="@+id/add_student_fragment"
-                    android:name="com.b1gdigital.schools.fragments.AddStudent"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2" />
-
             </LinearLayout>
 
             <android.support.design.widget.AppBarLayout
