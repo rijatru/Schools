@@ -10,7 +10,6 @@ import android.view.animation.OvershootInterpolator;
 
 import com.b1gdigital.schools.databinding.ActivityMainBinding;
 import com.b1gdigital.schools.model.Grade;
-import com.b1gdigital.schools.model.Grade2;
 import com.b1gdigital.schools.model.IntroRecyclerEvent;
 import com.b1gdigital.schools.model.MessageEvent;
 import com.b1gdigital.schools.model.RecyclerCellEvent;
@@ -47,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     Grade grade;
     @Inject
-    Grade2 netWorker2;
-    @Inject
     Student student;
 
     ActivityMainBinding binding;
@@ -65,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
         netWorker.setScreenHeight(this);
         grade.setScreenHeight(this);
-        netWorker2.setScreenHeight(this);
 
         grade.setName("Name");
 

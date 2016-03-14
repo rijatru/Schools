@@ -21,7 +21,6 @@ import com.b1gdigital.schools.adapter.FeedItemAnimator;
 import com.b1gdigital.schools.adapter.StudentsRecyclerViewAdapter;
 import com.b1gdigital.schools.databinding.ShowStudentsFragmentBinding;
 import com.b1gdigital.schools.model.Grade;
-import com.b1gdigital.schools.model.Grade2;
 import com.b1gdigital.schools.model.IntroRecyclerEvent;
 import com.b1gdigital.schools.model.MessageEvent;
 import com.b1gdigital.schools.model.Student;
@@ -51,8 +50,6 @@ public class ShowStudents extends Fragment {
     NetWorker netWorker;
     @Inject
     Grade grade;
-    @Inject
-    Grade2 netWorker2;
 
     ShowStudentsFragmentBinding binding;
 
@@ -94,7 +91,6 @@ public class ShowStudents extends Fragment {
     void inject() {
 
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
-        ((App) getActivity().getApplication()).getNetComponent2().inject(this);
         ((App) getActivity().getApplication()).getSchoolComponent().inject(this);
     }
 
@@ -202,7 +198,6 @@ public class ShowStudents extends Fragment {
         if (animated) {
 
             logWorker.log("updateItems netWorker: " + netWorker.getScreenHeight());
-            logWorker.log("updateItems netWorker2: " + netWorker2.getScreenHeight());
             logWorker.log("updateItems grade: " + grade.getScreenHeight());
 
             binding.studentsRecyclerView.setY(grade.getScreenHeight());
