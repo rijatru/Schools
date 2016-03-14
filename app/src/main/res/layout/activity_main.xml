@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="schools.b1gdigital.com.schools.MainActivity">
 
@@ -22,46 +22,76 @@
         android:layout_height="match_parent"
         android:clipToPadding="false">
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="@{handlers.onClickButton}"
-            android:text="@{school.name}"
-            android:textColor="@android:color/black" />
-
-        <LinearLayout
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/button"
-            android:layout_below="@+id/name"
             android:orientation="vertical">
 
-            <fragment
-                android:id="@+id/show_students_fragment"
-                android:name="com.b1gdigital.schools.fragments.ShowStudents"
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{handlers.onClickButton}"
+                android:text="@{school.name}"
+                android:textColor="@android:color/black" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_above="@+id/button"
+                android:layout_below="@+id/name"
+                android:orientation="vertical">
 
-            <fragment
-                android:id="@+id/add_student_fragment"
-                android:name="com.b1gdigital.schools.fragments.AddStudent"
+                <fragment
+                    android:id="@+id/show_students_fragment"
+                    android:name="com.b1gdigital.schools.fragments.ShowStudents"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <fragment
+                    android:id="@+id/add_student_fragment"
+                    android:name="com.b1gdigital.schools.fragments.AddStudent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:onClick="@{handlers.onClickButton}"
+                android:text="@{school.name}" />
+
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appBarLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2" />
+                android:layout_height="wrap_content">
 
-        </LinearLayout>
+                <include
+                    android:id="@+id/toolbar"
+                    layout="@layout/view_feed_toolbar" />
+            </android.support.design.widget.AppBarLayout>
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:onClick="@{handlers.onClickButton}"
-            android:text="@{school.name}" />
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btnCreate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_marginBottom="@dimen/btn_fab_margins"
+                android:layout_marginRight="@dimen/btn_fab_margins"
+                android:src="@drawable/ic_instagram_white"
+                app:borderWidth="0dp"
+                app:elevation="6dp"
+                app:pressedTranslationZ="12dp" />
+
+        </android.support.design.widget.CoordinatorLayout>
 
     </RelativeLayout>
 
