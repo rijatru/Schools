@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
             school.setName(getString(R.string.button));
         }
+
+        insertStudents();
     }
 
     @Override
@@ -91,6 +93,18 @@ public class MainActivity extends AppCompatActivity {
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
+    }
+
+    void insertStudents() {
+
+        for (int i = 0; i < 100; i++) {
+
+            Student student = new Student();
+            student.setName("Name");
+            student.setGrade("Grade");
+
+            grade.addStudent(student);
+        }
     }
 
     @Subscribe
