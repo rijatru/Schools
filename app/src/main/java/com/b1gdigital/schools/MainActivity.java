@@ -6,9 +6,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 
 import com.b1gdigital.schools.databinding.ActivityMainBinding;
 import com.b1gdigital.schools.model.Grade;
+import com.b1gdigital.schools.model.IntroRecyclerEvent;
 import com.b1gdigital.schools.model.MessageEvent;
 import com.b1gdigital.schools.model.RecyclerCellEvent;
 import com.b1gdigital.schools.model.School;
@@ -28,6 +30,7 @@ import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int ANIM_DURATION_FAB = 400;
     @Inject
     BusWorker busWorker;
     @Inject
@@ -44,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
     Grade grade;
     @Inject
     Student student;
-
     ActivityMainBinding binding;
+    private boolean pendingIntroAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +75,14 @@ public class MainActivity extends AppCompatActivity {
             school.setName(getString(R.string.button));
         }
 
-        insertStudents();
+        if (savedInstanceState == null) {
+
+            pendingIntroAnimation = true;
+
+        } else {
+
+            busWorker.getBus().post(new IntroRecyclerEvent());
+        }
     }
 
     @Override
@@ -80,6 +90,27 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         busWorker.register(this);
+
+        if (pendingIntroAnimation) {
+
+            pendingIntroAnimation = false;
+
+            startIntroAnimation();
+        }
+    }
+
+    private void startIntroAnimation() {
+
+        logWorker.log("startIntroAnimation");
+
+        binding.btnCreate.setTranslationY(2 * getResources().getDimensionPixelOffset(R.dimen.btn_fab_size));
+
+        binding.btnCreate.animate()
+                .translationY(0)
+                .setInterpolator(new OvershootInterpolator(1.f))
+                .setStartDelay(300)
+                .setDuration(ANIM_DURATION_FAB)
+                .start();
     }
 
     @Override
@@ -90,21 +121,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (netWorker != null) {
+
+            netWorker.cancelAll();
+        }
+    }
+
+    @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-    }
-
-    void insertStudents() {
-
-        for (int i = 0; i < 100; i++) {
-
-            Student student = new Student();
-            student.setName("Name");
-            student.setGrade("Grade");
-
-            grade.addStudent(student);
-        }
     }
 
     @Subscribe
@@ -149,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void showLikedSnackbar() {
 
-        Snackbar.make(binding.getRoot(), "Liked!", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(binding.content, "Liked!", Snackbar.LENGTH_SHORT).show();
     }
 
     public void onClickButton(View view) {
@@ -175,16 +204,6 @@ public class MainActivity extends AppCompatActivity {
             default:
 
                 break;
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        if (netWorker != null) {
-
-            netWorker.cancelAll();
         }
     }
 

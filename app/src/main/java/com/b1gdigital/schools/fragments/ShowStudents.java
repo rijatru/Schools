@@ -16,7 +16,10 @@ import com.b1gdigital.schools.R;
 import com.b1gdigital.schools.adapter.FeedItemAnimator;
 import com.b1gdigital.schools.adapter.StudentsRecyclerViewAdapter;
 import com.b1gdigital.schools.databinding.ShowStudentsFragmentBinding;
+import com.b1gdigital.schools.model.Grade;
+import com.b1gdigital.schools.model.IntroRecyclerEvent;
 import com.b1gdigital.schools.model.MessageEvent;
+import com.b1gdigital.schools.model.Student;
 import com.b1gdigital.schools.model.StudentEvent;
 import com.b1gdigital.schools.view.FeedContextMenuManager;
 import com.b1gdigital.schools.workers.BusWorker;
@@ -38,6 +41,8 @@ public class ShowStudents extends Fragment {
     BusWorker busWorker;
     @Inject
     LogWorker logWorker;
+    @Inject
+    Grade grade;
 
     ShowStudentsFragmentBinding binding;
 
@@ -64,6 +69,8 @@ public class ShowStudents extends Fragment {
         super.onResume();
 
         busWorker.register(this);
+
+        updateItems(true);
     }
 
     void inject() {
@@ -86,6 +93,12 @@ public class ShowStudents extends Fragment {
         adapter.notifyItemInserted(0);
 
         binding.studentsRecyclerView.smoothScrollToPosition(0);
+    }
+
+    @Subscribe
+    public void recievedMessage(IntroRecyclerEvent event) {
+
+        updateItems(true);
     }
 
     @Override
@@ -168,6 +181,37 @@ public class ShowStudents extends Fragment {
 
         binding.studentsRecyclerView.setLayoutManager(mLayoutManager);
         binding.studentsRecyclerView.scrollToPosition(scrollPosition);
+    }
+
+    public void updateItems(boolean animated) {
+
+        logWorker.log("updateItems: " + animated);
+
+        insertStudents();
+
+        if (animated) {
+
+            adapter.notifyItemRangeInserted(0, grade.getStudents().size());
+
+        } else {
+
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    void insertStudents() {
+
+        if (grade.getStudents().size() == 0) {
+
+            for (int i = 0; i < 100; i++) {
+
+                Student student = new Student();
+                student.setName("Name");
+                student.setGrade("Grade");
+
+                grade.addStudent(student);
+            }
+        }
     }
 
     private enum LayoutManagerType {
