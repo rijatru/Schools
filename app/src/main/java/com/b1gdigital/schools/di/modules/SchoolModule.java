@@ -7,8 +7,6 @@ import com.b1gdigital.schools.model.Student;
 import com.b1gdigital.schools.model.Teacher;
 import com.b1gdigital.schools.workers.NetWorker;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 
@@ -23,28 +21,28 @@ public class SchoolModule {
     }
 
     @Provides
-    @Singleton
+    @AppScope
     Grade provideGrade() {
 
         return new Grade();
     }
 
     @Provides
-    @Singleton
+    @AppScope
     Teacher provideTeacher() {
 
         return new Teacher();
     }
 
     @Provides
-    @Singleton
+    @AppScope
     Student provideStudent() {
 
         return new Student();
     }
 
     @Provides
-    @Singleton
+    @AppScope
     NetWorker provideNetWorker() {
 
         return new NetWorker();

@@ -5,12 +5,11 @@ import com.b1gdigital.schools.MainActivity;
 import com.b1gdigital.schools.adapter.StudentsRecyclerViewAdapter;
 import com.b1gdigital.schools.di.modules.NetModule;
 import com.b1gdigital.schools.di.modules.SchoolModule;
+import com.b1gdigital.schools.di.scopes.AppScope;
 import com.b1gdigital.schools.fragments.AddStudent;
 import com.b1gdigital.schools.fragments.ShowStudents;
 
-import javax.inject.Singleton;
-
-@Singleton
+@AppScope
 @dagger.Component(modules = {SchoolModule.class, NetModule.class})
 public interface AppComponent {
 
