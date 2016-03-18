@@ -4,6 +4,7 @@ import com.b1gdigital.schools.di.scopes.AppScope;
 import com.b1gdigital.schools.workers.BusWorker;
 import com.b1gdigital.schools.workers.DbWorker;
 import com.b1gdigital.schools.workers.LogWorker;
+import com.b1gdigital.schools.workers.NetWorker;
 import com.b1gdigital.schools.workers.SharedPreferencesWorker;
 
 import dagger.Module;
@@ -38,5 +39,12 @@ public class NetModule {
     BusWorker provideBusWorker(){
 
         return new BusWorker();
+    }
+
+    @Provides
+    @AppScope
+    NetWorker provideNetWorker() {
+
+        return new NetWorker();
     }
 }

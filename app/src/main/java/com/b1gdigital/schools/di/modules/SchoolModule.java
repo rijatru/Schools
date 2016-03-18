@@ -5,7 +5,6 @@ import com.b1gdigital.schools.model.Grade;
 import com.b1gdigital.schools.model.School;
 import com.b1gdigital.schools.model.Student;
 import com.b1gdigital.schools.model.Teacher;
-import com.b1gdigital.schools.workers.NetWorker;
 
 import dagger.Module;
 import dagger.Provides;
@@ -39,12 +38,5 @@ public class SchoolModule {
     Student provideStudent() {
 
         return new Student();
-    }
-
-    @Provides
-    @AppScope
-    NetWorker provideNetWorker() {
-
-        return new NetWorker();
     }
 }

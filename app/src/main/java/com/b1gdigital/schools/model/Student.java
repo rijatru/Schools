@@ -77,6 +77,6 @@ public class Student extends BaseObservable {
     public void reset() {
 
         name = "";
-        name = "";
+        grade = "";
     }
 }
